@@ -1,1 +1,7 @@
 Babel can be configured via .babelrc but I prefer to use package.json
+
+Four ways to Create React Components.
+- createClass
+- ES Class 
+- Function
+- Arrow Function
