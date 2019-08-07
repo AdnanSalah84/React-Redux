@@ -1,0 +1,1 @@
+Babel can be configured via .babelrc but I prefer to use package.json
