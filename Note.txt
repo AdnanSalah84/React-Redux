@@ -5,3 +5,6 @@ Four ways to Create React Components.
 - ES Class 
 - Function
 - Arrow Function
+
+Immutability:
+To change state, return a new object
