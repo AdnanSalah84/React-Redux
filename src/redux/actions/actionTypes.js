@@ -1,3 +1,1 @@
-export function createCourse(course) {
-    return { type: 'CREATE_COURSE', course: course };
-}
+export const CREATE_COURSE = "CREATE_COURSE";
