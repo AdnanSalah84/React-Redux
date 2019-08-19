@@ -8,3 +8,5 @@ Four ways to Create React Components.
 
 Immutability:
 To change state, return a new object
+
+"start": "run-p start:dev start:api" // This command allows us to run multiple npm scripts at the same time.

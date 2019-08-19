@@ -16,7 +16,7 @@ class CoursesPage extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }*/
 
-    state = {
+    /*state = {
         course: {
             title: ''
         }
@@ -36,11 +36,17 @@ class CoursesPage extends React.Component {
         //this.props.createCourse(this.state.course);
         this.props.actions.createCourse(this.state.course);
 
+    }*/
+
+    componentDidMount() {
+        this.props.actions.loadCourses().catch(error => {
+            alert("Loading courses failed" + error);
+        })
     }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            /*<form onSubmit={this.handleSubmit}>
                 <h2>Courses</h2>
                 <h3>Add Course</h3>
                 <input
@@ -53,7 +59,14 @@ class CoursesPage extends React.Component {
                 {this.props.courses.map(course => (
                     <div key={course.title}>{course.title}</div>
                 ))}
-            </form>
+            </form>*/
+            <>
+                <h2>Courses</h2>
+
+                {this.props.courses.map(course => (
+                    <div key={course.title}>{course.title}</div>
+                ))}
+            </>
         )
     }
 }
