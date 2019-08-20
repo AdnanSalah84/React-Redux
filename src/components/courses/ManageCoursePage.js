@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { loadCourses } from '../../redux/actions/courseActions';
 import { loadAuthors } from '../../redux/actions/authorActions';
 import PropTypes from 'prop-types';
+import CourseForm from './CourseForm';
+import { newCourse } from '../../../tools/mockData';
 
+function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, ...prop }) {
+    const [course, setCourse] = useState({ ...prop.course });
+    const [errors, setErrors] = useState({});
 
-function ManageCoursePage({ courses, authors, loadCourses, loadAuthors }) {
     useEffect(() => {
         if (courses.length === 0) {
             loadCourses().catch(error => {
@@ -17,18 +21,33 @@ function ManageCoursePage({ courses, authors, loadCourses, loadAuthors }) {
                 alert("Loading authors failed" + error);
             })
         }
-    })
+    }, []); // The empty array as a second argument to effect means the effect will run once
+    // when the component mounts
 
+    function handleChange(event) {
+        const { name, value } = event.target;
+        setCourse(prevCourse => ({
+            ...prevCourse,
+            [name]: name === "authorId" ? parseInt(value, 10) : value
+        }));
+    }
+
+    // function handleSave(event) {
+    //     event.preventDefault();
+    //     saveCourse(course).then(() => {
+    //         history.push("/courses");
+    //     });
+    // }
 
     return (
-        <>
-            <h2>Manage Course</h2>
-        </>
+        <CourseForm course={course} errors={errors} authors={authors} onChange={handleChange} />
+
     )
 
 }
 
 ManageCoursePage.propTypes = {
+    course: PropTypes.array.isRequired,
     authors: PropTypes.array.isRequired,
     courses: PropTypes.array.isRequired,
     loadCourses: PropTypes.func.isRequired,
@@ -37,6 +56,7 @@ ManageCoursePage.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        course: newCourse,
         courses: state.courses,
         authors: state.authors
     };
