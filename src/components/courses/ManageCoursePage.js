@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import CourseForm from './CourseForm';
 import { newCourse } from '../../../tools/mockData';
 
-function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCourse, history, ...prop }) {
-    const [course, setCourse] = useState({ ...prop.course });
+function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCourse, history, ...props }) {
+    const [course, setCourse] = useState({ ...props.course });
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -15,13 +15,16 @@ function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCour
             loadCourses().catch(error => {
                 alert("Loading courses failed" + error);
             })
+        } else {
+            setCourse({ ...props.course })
         }
+
         if (authors.length === 0) {
             loadAuthors().catch(error => {
                 alert("Loading authors failed" + error);
             })
         }
-    }, []); // The empty array as a second argument to effect means the effect will run once
+    }, [props.course]); // The empty array as a second argument to effect means the effect will run once
     // when the component mounts
 
     function handleChange(event) {
@@ -51,7 +54,7 @@ function ManageCoursePage({ courses, authors, loadCourses, loadAuthors, saveCour
 }
 
 ManageCoursePage.propTypes = {
-    course: PropTypes.array.isRequired,
+    course: PropTypes.object.isRequired,
     authors: PropTypes.array.isRequired,
     courses: PropTypes.array.isRequired,
     loadCourses: PropTypes.func.isRequired,
@@ -60,9 +63,16 @@ ManageCoursePage.propTypes = {
     history: PropTypes.object.isRequired
 };
 
-function mapStateToProps(state) {
+export function getCourseBySlug(courses, slug) {
+    return courses.find(course => course.slug === slug) || null;
+}
+
+function mapStateToProps(state, ownProps) {
+    const slug = ownProps.match.params.slug;
+    const course = slug && state.courses.length > 0 ? getCourseBySlug(state.courses, slug) : newCourse;
     return {
-        course: newCourse,
+        //course: newCourse,
+        course,
         courses: state.courses,
         authors: state.authors
     };
