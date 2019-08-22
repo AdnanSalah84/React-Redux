@@ -12,6 +12,7 @@ export function loadAuthors() {
         return authorApi.getAuthors().then(authors => {
             dispatch(loadAuthorsSucess(authors));
         }).catch(error => {
+            dispatch(apiCallError());
             throw error;
         })
     }
