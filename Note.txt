@@ -10,3 +10,7 @@ Immutability:
 To change state, return a new object
 
 "start": "run-p start:dev start:api" // This command allows us to run multiple npm scripts at the same time.
+
+Two ways to render a React Component for testing with Enzyme:
+1.shallow - Render single Component
+2.mount - Render Component with children
