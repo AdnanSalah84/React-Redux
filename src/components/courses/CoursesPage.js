@@ -63,6 +63,18 @@ class CoursesPage extends React.Component {
         }
     }
 
+    handleDeleteCourse = async course => {
+        toast.success("Course deleted");
+        // this.props.actions.deleteCourse(course).catch(error => {
+        //     toast.error("Delete failed. " + error.message, { autoClose: false });
+        // });
+        try {
+            await this.props.actions.deleteCourse(course);
+        } catch (error) {
+            toast.error("Delete failed. " + error.message, { autoClose: false });
+        }
+    };
+
     render() {
         return (
             /*<form onSubmit={this.handleSubmit}>
@@ -91,7 +103,7 @@ class CoursesPage extends React.Component {
                                 onClick={() => this.setState({ redirectToAddCoursePage: true })}>
                                 Add Course
                             </button>
-                            <CourseList courses={this.props.courses} />
+                            <CourseList onDeleteClick={this.handleDeleteCourse} courses={this.props.courses} />
                         </>
                     )}
                 {/* {this.props.courses.map(course => (
@@ -141,7 +153,7 @@ function mapDispatchToProps(dispatch) {
         actions: {
             loadCourses: bindActionCreators(courseActions.loadCourses, dispatch),
             loadAuthors: bindActionCreators(authorActions.loadAuthors, dispatch),
-            //deleteCourse: bindActionCreators(courseActions.deleteCourse, dispatch)
+            deleteCourse: bindActionCreators(courseActions.deleteCourse, dispatch)
         }
     };
 }
